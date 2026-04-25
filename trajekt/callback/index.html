@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trajekt — OAuth Callback</title>
+  <style>
+    body { font-family: sans-serif; max-width: 480px; margin: 4rem auto; padding: 0 1rem; color: #1a1a1a; }
+    code { background: #f4f4f4; padding: .2em .4em; border-radius: 4px; font-size: .9em; }
+    hr { border: none; border-top: 1px solid #e0e0e0; margin: 2rem 0; }
+  </style>
+</head>
+<body>
+  <h1>Trajekt — Moneybird verbinden</h1>
+  <p>
+    Deze pagina is het OAuth 2.0 redirect-eindpunt voor de <strong>Trajekt</strong>-app.
+    Als de app op dit apparaat is geïnstalleerd, wordt u automatisch teruggeleid.
+    Zo niet, open dan de Trajekt-app handmatig.
+  </p>
+  <hr>
+  <h2>Hoe werkt dit?</h2>
+  <p>
+    Wanneer u Moneybird koppelt in Trajekt, stuurt Moneybird een eenmalige
+    autorisatiecode naar dit adres. De app onderschept deze omleiding direct via
+    <strong>Android App Links</strong> of <strong>iOS Universal Links</strong> —
+    de code bereikt nooit een server.
+    <strong>Er worden geen gegevens opgeslagen of gelogd.</strong>
+  </p>
+  <p>
+    De verbinding is beveiligd via
+    <a href="https://datatracker.ietf.org/doc/html/rfc7636">PKCE (RFC 7636)</a>.
+    Zonder de geheime <em>code_verifier</em> die alleen in de app aanwezig is,
+    is de autorisatiecode waardeloos.
+  </p>
+  <hr>
+  <p><small>
+    Broncode van deze pagina:
+    <a href="https://github.com/michielvanbeers/michielvanbeers.github.io">github.com/michielvanbeers/michielvanbeers.github.io</a>
+  </small></p>
+</body>
+</html>

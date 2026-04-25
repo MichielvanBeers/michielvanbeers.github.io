@@ -1,0 +1,9 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [{
+      "appID": "TEAMID.nl.trajekt",
+      "paths": ["/trajekt/callback"]
+    }]
+  }
+}
