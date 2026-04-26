@@ -8,9 +8,28 @@
     body { font-family: sans-serif; max-width: 480px; margin: 4rem auto; padding: 0 1rem; color: #1a1a1a; }
     code { background: #f4f4f4; padding: .2em .4em; border-radius: 4px; font-size: .9em; }
     hr { border: none; border-top: 1px solid #e0e0e0; margin: 2rem 0; }
+    #debug-code-box { display: none; background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 1.2rem; margin: 1.5rem 0; }
+    #debug-code-box h2 { margin-top: 0; font-size: 1.1rem; color: #856404; }
+    #code-value { font-family: monospace; font-size: 0.85rem; word-break: break-all; background: #fff; border: 1px solid #ccc; border-radius: 4px; padding: .5rem; display: block; margin: .5rem 0; }
+    #copy-btn { background: #ffc107; border: none; border-radius: 4px; padding: .5rem 1rem; font-size: 1rem; cursor: pointer; }
+    #copy-btn:active { background: #e0a800; }
+    #copy-confirm { display: none; color: #198754; font-weight: bold; margin-left: .5rem; }
+    #open-app-btn { display: none; background: #1a7f3c; color: #fff; text-decoration: none; border-radius: 8px; padding: .75rem 1.5rem; font-size: 1.1rem; font-weight: bold; margin: 1rem 0; text-align: center; }
+    #open-app-btn:active { background: #145e2d; }
   </style>
 </head>
 <body>
+  <div id="debug-code-box">
+    <h2>🛠 Debug: autorisatiecode</h2>
+    <p>Kopieer deze code en plak hem in de Trajekt-app:</p>
+    <code id="code-value"></code>
+    <br>
+    <button id="copy-btn" onclick="copyCode()">Kopieer code</button>
+    <span id="copy-confirm">✓ Gekopieerd!</span>
+    <br><br>
+    <a id="open-app-btn" href="#">Open Trajekt</a>
+  </div>
+
   <h1>Trajekt — Moneybird verbinden</h1>
   <p>
     Deze pagina is het OAuth 2.0 redirect-eindpunt voor de <strong>Trajekt</strong>-app.
@@ -37,5 +56,37 @@
     Broncode van deze pagina:
     <a href="https://github.com/michielvanbeers/michielvanbeers.github.io">github.com/michielvanbeers/michielvanbeers.github.io</a>
   </small></p>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var code = params.get('code');
+      if (code) {
+        var appUrl = 'nl.trajekt://auth/callback?code=' + encodeURIComponent(code);
+
+        var box = document.getElementById('debug-code-box');
+        var codeEl = document.getElementById('code-value');
+        var openBtn = document.getElementById('open-app-btn');
+        codeEl.textContent = code;
+        openBtn.href = appUrl;
+        openBtn.style.display = 'inline-block';
+        box.style.display = 'block';
+
+        // Attempt automatic redirect back to the Trajekt app via custom URL
+        // scheme. On iOS 26 simulator, Safari requires a user gesture for this
+        // to succeed — if it is blocked, tap the "Open Trajekt" button above.
+        window.location = appUrl;
+      }
+    })();
+
+    function copyCode() {
+      var code = document.getElementById('code-value').textContent;
+      navigator.clipboard.writeText(code).then(function () {
+        var confirm = document.getElementById('copy-confirm');
+        confirm.style.display = 'inline';
+        setTimeout(function () { confirm.style.display = 'none'; }, 2000);
+      });
+    }
+  </script>
 </body>
 </html>
