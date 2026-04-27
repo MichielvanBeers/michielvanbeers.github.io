@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trajekt — verbinden</title>
+  <script>
+    // Bridge page for Trajekt OAuth callback.
+    //
+    // Moneybird redirects here after the user authorises the app:
+    //   https://michielvanbeers.github.io/trajekt/callback/?code=XXX&state=YYY
+    //
+    // This page immediately redirects to the custom URL scheme:
+    //   nl.trajekt://oauth/callback?code=XXX&state=YYY
+    //
+    // ASWebAuthenticationSession (iOS) intercepts the custom-scheme navigation,
+    // dismisses the in-app browser sheet, and delivers the code to the app
+    // without ever showing this page to the user (<50ms).
+    //
+    // If the custom-scheme redirect does NOT fire (e.g. the URL was opened in a
+    // desktop browser, or the app is not installed), the fallback UI below is
+    // shown with a manual "Open Trajekt" button.
+    (function () {
+      var q = window.location.search;           // "?code=XXX&state=YYY" (or "?error=…")
+      var target = 'nl.trajekt://oauth/callback' + q;
+      window.location.replace(target);
+    }());
+  </script>
+  <style>
+    :root {
+      --primary: #2E7D32;
+      --surface: #F6F6F3;
+      --on-surface: #1A1A18;
+      --on-surface-variant: #5C5C57;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--surface);
+      color: var(--on-surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+      padding: 24px;
+      text-align: center;
+    }
+    .wordmark {
+      font-size: 48px;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .wordmark em {
+      font-style: italic;
+      color: var(--primary);
+    }
+    .subtitle {
+      font-size: 15px;
+      color: var(--on-surface-variant);
+      margin-bottom: 40px;
+    }
+    .message {
+      font-size: 16px;
+      color: var(--on-surface-variant);
+      max-width: 320px;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 14px 32px;
+      border-radius: 100px;
+      text-decoration: none;
+      margin-bottom: 24px;
+    }
+    .fallback-code {
+      font-size: 12px;
+      color: var(--on-surface-variant);
+      word-break: break-all;
+      max-width: 320px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Fallback UI — only visible if the custom-scheme redirect above did not fire -->
+  <p class="wordmark">Traj<em>ekt</em></p>
+  <p class="subtitle">Ritregistratie voor zzp'ers</p>
+  <p class="message">Tik hieronder om Trajekt te openen en de verbinding met Moneybird te voltooien.</p>
+  <a id="open-btn" class="btn" href="">Open Trajekt</a>
+  <script>
+    // Build the deep-link href for the fallback button using the same query string.
+    document.getElementById('open-btn').href =
+      'nl.trajekt://oauth/callback' + window.location.search;
+  </script>
+</body>
+</html>

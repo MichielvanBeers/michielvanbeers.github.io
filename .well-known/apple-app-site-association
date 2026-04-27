@@ -1,0 +1,9 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [{
+      "appID": "BUKRL98CP6.nl.trajekt",
+      "paths": ["/trajekt/callback", "/trajekt/callback/"]
+    }]
+  }
+}

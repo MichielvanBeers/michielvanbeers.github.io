@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "nl.trajekt",
+    "sha256_cert_fingerprints": [
+      "44:88:87:09:56:FA:A0:E9:14:7F:70:76:A1:48:3C:0F:83:8E:76:8B:A2:A3:24:93:91:6C:38:55:4E:31:E4:0F"
+    ]
+  }
+}]
